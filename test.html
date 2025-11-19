@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <title>KONAXIN - Popup Player Video</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        /* CSS tidak berubah */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #000;
+        }
+
+        .embed-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        a#ad-link {
+            text-decoration: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        a#ad-link.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 450px;
+            padding: 20px;
+            text-align: center;
+            color: #e0e0e0;
+            background: rgba(43, 43, 43, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        a#ad-link .message-box {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        a#ad-link.visible .message-box {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-box p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .message-box .warning {
+            color: yellow;
+            font-weight: bold;
+            margin-top: 20px;
+            display: block;
+            font-size: 12px;
+        }
+    </style>
+    <script>
+        function devtoolIsOpening() {
+            console.clear();
+            var before = new Date().getTime();
+            debugger;
+            var after = new Date().getTime();
+            if (after - before > 200) {
+                document.write("Dont open Developer Tools.");
+                window.location.replace("https://www.google.com");
+            }
+            setTimeout(devtoolIsOpening, 100);
+        }
+        devtoolIsOpening();
+    </script>
+</head>
+
+<body>
+    <a id="ad-link" href="#" target="_blank" rel="noopener nofollow">
+        <div class="message-box">
+            <p><strong>Klik Di Mana Saja untuk Memulai Film</strong></p>
+            <p style="font-size: 14px; opacity: 0.7;">
+                <em>"Terima kasih sudah mengklik ku 1 kali, untuk menampilkan iklan dan <strong>Play Movie</strong>, mudah rezeki dan sehat terus buat kamu. Aamiin"</em>
+            </p>
+            <span class="warning">THIS PLAYER CONTAINS ADS</span>
+        </div>
+    </a>
+
+    <div class="embed-container">
+        <iframe src="https://emturbovid.com/t/690bf21cdd5cf" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+    </div>
+
+    <script>
+        'use strict';
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var adLink = document.getElementById('ad-link');
+            if (adLink) {
+                var urlGanjil = 'https://organicowner.com/b.3oVS0/Pn3Jpsv/bEmhV/JEZ/Du0a0LNQz/A/4INyjRQc5sLDTkQv3GMNDHgA2/NoTKAK';
+                var urlGenap = '';
+
+                var currentSecond = new Date().getSeconds();
+                var dynamicAdUrl = (currentSecond % 2 === 0) ? urlGanjil : urlGanjil;
+
+                adLink.href = dynamicAdUrl;
+            }
+
+            var storageKey = 'adLastClicked';
+            var cooldownMinutes = 3;
+
+            function isLocalStorageSupported() {
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function showAdIfNeeded() {
+                if (!isLocalStorageSupported()) {
+                    adLink.classList.add('visible');
+                    return;
+                }
+                var lastClickedTime = parseInt(localStorage.getItem(storageKey), 10);
+                var now = new Date().getTime();
+                if (isNaN(lastClickedTime) || now > lastClickedTime) {
+                    adLink.classList.add('visible');
+                }
+            }
+
+            function handleAdClick() {
+                adLink.classList.remove('visible');
+                if (isLocalStorageSupported()) {
+                    var now = new Date().getTime();
+                    var expiryTime = now + (cooldownMinutes * 60 * 1000);
+                    localStorage.setItem(storageKey, expiryTime);
+                }
+            }
+
+            showAdIfNeeded();
+            adLink.addEventListener('click', handleAdClick);
+        });
+    </script>
+
+</body>
+
+</html>
